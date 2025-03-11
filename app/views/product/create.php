@@ -1,4 +1,15 @@
-<?php include 'includes/db.php'; ?>
+<?php
+require_once __DIR__ . '/../../models/Product.php';
+
+$product = new Product();
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $product->createProduct($_POST['name'], $_POST['price'], $_POST['stock'], $_POST['category_id']);
+    header("Location: index.php");
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,17 +20,17 @@
 <body>
 <div class="container mt-5">
     <h1>Tambah Produk Baru</h1>
-    <form action="save_product.php" method="post">
+    <form action='' method="post">
         <div class="form-group mb-3">
             <label for="name">Nama Produk:</label>
             <input type="text" class="form-control" id="name" name="name" required>
         </div>
-        <div class="form-group">
-            <label for="category">Kategori:</label>
-            <select class="form-select" id="category" name="category" required>
-                <option value="Makanan">Makanan</option>
-                <option value="Minuman">Minuman</option>
-                <option value="Snack">Snack</option>
+        <div class="form-group mb-3">
+            <label for="category_id">Kategori:</label>
+            <select class="form-select" id="category_id" name="category_id" required>
+                <option value="1">Makanan</option>
+                <option value="2">Minuman</option>
+                <option value="3">Snack</option>
             </select>
         </div>
         <div class="form-group mb-3">

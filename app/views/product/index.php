@@ -1,4 +1,9 @@
-<?php include 'includes/db.php'; ?>
+<?php
+require_once __DIR__ . '/../../models/Product.php';
+
+$products = (new Product())->getAllProducts();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +18,7 @@
 
 <div class="container mt-5 mb-5">
     <h1>Daftar Produk</h1>
-    <a href="create.php" class="btn btn-primary mb-3">Tambah Produk Baru</a>
+    <a href='create.php' class="btn btn-primary mb-3">Tambah Produk Baru</a>
     <table id="productsTable" class="table table-striped table-bordered">
         <thead>
         <tr>
@@ -26,18 +31,19 @@
         </thead>
         <tbody>
         <?php
-        $stmt = $pdo->query('SELECT * FROM products');
-        while ($row = $stmt->fetch()) {
-            echo "<tr>
-                        <td>{$row['id']}</td>
-                        <td>{$row['name']}</td>
-                        <td class='price'>{$row['price']}</td>
-                        <td>{$row['stock']}</td>
-                        <td>
-                            <a href='edit.php?id={$row['id']}' class='btn btn-warning btn-sm'>Edit</a>
-                            <button class='btn btn-danger btn-sm delete-btn' data-id='{$row['id']}'>Hapus</button>
-                        </td>
-                      </tr>";
+        if (isset($products) && is_array($products)) {
+            foreach ($products as $product) {
+                echo "<tr>
+                    <td>{$product['id']}</td>
+                    <td>{$product['name']}</td>
+                    <td class='price'>{$product['price']}</td>
+                    <td>{$product['stock']}</td>
+                    <td>
+                        <a href='update.php?id={$product['id']}' class='btn btn-warning btn-sm'>Edit</a>
+                        <button class='btn btn-danger btn-sm delete-btn' data-id='{$product['id']}'>Hapus</button>
+                    </td>
+                  </tr>";
+            }
         }
         ?>
         </tbody>
